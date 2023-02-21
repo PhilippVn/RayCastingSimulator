@@ -1,1 +1,1 @@
-# RayTracing
+# RayCasting Simulator
