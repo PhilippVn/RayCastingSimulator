@@ -12,7 +12,8 @@ var nextBoundary;
 
 // constants
 const boundaryWidth = 10;
-const rayWidth = 1;
+const rayWidth = 0.3;
+const rayStepSize = 10;
 const FPS = 120;
 const playerRadius = 13;
 const fpsInterval = 1000 / FPS; // interval between frames in miliseconds
@@ -58,11 +59,15 @@ function gameLoop(timestamp,lastTimestamp,canvas,ctx,fpsCounter){
         lastTimestamp = timestamp;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+        ctx.lineWidth = boundaryWidth;
         for(let i = 0; i < boundaries.length; ++i){
-            boundaries[i].drawBoundary(ctx,boundaryWidth);
+            boundaries[i].drawBoundary(ctx);
         }
     
         player.drawPlayer(ctx);
+
+        ctx.lineWidth = rayWidth;
+        player.shootRays(ctx,rayStepSize);
     }
     // request the next animation frame
     requestAnimationFrame(function (timestamp) {

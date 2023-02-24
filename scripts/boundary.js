@@ -49,10 +49,8 @@ class Boundary{
     /**
      * Draws the boundary on the provided canvas context
      * @param {CanvasRenderingContext2D} ctx
-     * @param {Number} boundaryWidth 
      */
-    drawBoundary(ctx,boundaryWidth){
-        ctx.lineWidth = boundaryWidth;
+    drawBoundary(ctx){
         ctx.beginPath();
         ctx.moveTo(this.startX,this.startY);
         ctx.lineTo(this.endX,this.endY);

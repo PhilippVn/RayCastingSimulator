@@ -1,11 +1,13 @@
 class Ray{
     startX;
     startY;
-    direction;
-    constructor(startX,startY, direction){
+    direction; // angle with the x-axis in degrees
+    length;
+    constructor(startX,startY, direction,length){
         this.startX = startX;
         this.startY = startY;
         this.direction = direction;
+        this.length = length;
     }
 
     get getStartX(){
@@ -20,6 +22,10 @@ class Ray{
         return this.direction;
     }
 
+    get getLength(){
+        return this.length;
+    }
+
     set setStartX(startX){
         this.startX = startX;
     }
@@ -32,5 +38,32 @@ class Ray{
         this.direction = direction;
     }
 
-    
+    set setLength(length){
+        this.length = length;
+    }
+
+    /**
+     * draws a Ray emitted by the player
+     * @param {CanvasRenderingContext2D} ctx 
+     */
+    drawRay(ctx){
+        const endX = this.startX + this.length * Math.cos(degrees_to_radians(this.direction));
+        const endY = this.startY + this.length * Math.sin(degrees_to_radians(this.direction));
+
+        ctx.beginPath();
+        ctx.moveTo(this.startX, this.startY);
+        ctx.lineTo(endX, endY);
+        ctx.closePath();
+        ctx.stroke();
+        if(timesLogged++ < 10){
+            console.log(">> drew ray : From (" + this.startX + "," + this.startY+") To (" + endX + "," + endY +") with length=" + this.length + " and direction=" + this.direction);
+        }
+    }
 }
+
+function degrees_to_radians(degrees)
+{
+    var pi = Math.PI;
+    return degrees * (pi/180);
+}
+var timesLogged = 0;

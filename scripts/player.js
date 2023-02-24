@@ -2,10 +2,12 @@ class Player{
     playerX;
     playerY;
     radius;
+    rays;
     constructor(playerX,playerY, radius){
         this.playerX = playerX;
         this.playerY = playerY;
         this.radius = radius;
+        this.rays = [];
     }
 
     get getX(){
@@ -53,9 +55,26 @@ class Player{
      * @param {CanvasRenderingContext2D} ctx 
      */
     drawPlayer(ctx){
-        //experimental: draw player and rays
         ctx.beginPath();
         ctx.ellipse(this.playerX,this.playerY, this.radius, this.radius, 0, 0, 2 * Math.PI);
+        ctx.closePath();
         ctx.fill();
+    }
+
+
+    /**
+     * shoots rays from the player in 360 degrees
+     * @param {CanvasRenderingContext2D} ctx 
+     * @param {Number} degreeStep
+     * @param {Number} rayWidth
+     */
+    shootRays(ctx, degreeStep){
+        this.rays = [];
+        for(let i = 0; i < 360; i+=degreeStep){
+            this.rays.push(new Ray(this.playerX,this.playerY,i,100));
+        }
+        for(let ray of this.rays){
+            ray.drawRay(ctx);
+        }
     }
 }
