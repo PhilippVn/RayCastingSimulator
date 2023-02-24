@@ -55,9 +55,6 @@ class Ray{
         ctx.lineTo(endX, endY);
         ctx.closePath();
         ctx.stroke();
-        if(timesLogged++ < 10){
-            console.log(">> drew ray : From (" + this.startX + "," + this.startY+") To (" + endX + "," + endY +") with length=" + this.length + " and direction=" + this.direction);
-        }
     }
 }
 
@@ -66,4 +63,3 @@ function degrees_to_radians(degrees)
     var pi = Math.PI;
     return degrees * (pi/180);
 }
-var timesLogged = 0;
