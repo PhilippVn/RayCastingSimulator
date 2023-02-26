@@ -1,3 +1,8 @@
+/**
+ * Copyright © 2023 Philipp von Neffe
+ * 
+ * This Class represents a Ray emitted by the Player Object and calculates line interceptions
+ */
 class Ray{
     startX;
     startY;

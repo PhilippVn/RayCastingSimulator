@@ -1,3 +1,8 @@
+/**
+ * Copyright © 2023 Philipp von Neffe
+ * 
+ * This Class represents a boundary for the rays, which can either be a user defined one or the canvas borders
+ */
 class Boundary{
     startX;
     startY;

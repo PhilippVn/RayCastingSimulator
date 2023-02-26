@@ -1,3 +1,8 @@
+/**
+ * Copyright © 2023 Philipp von Neffe
+ * 
+ * This Class represents a moveable Player Object that shoots Rays
+ */
 class Player{
     playerX;
     playerY;

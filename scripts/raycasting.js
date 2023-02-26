@@ -1,3 +1,9 @@
+/**
+ * Copyright © 2023 Philipp von Neffe
+ * 
+ * Main Class which sets up global variables, event listeners and the game loop
+ */
+
 window.onload = function () {
     main();
 };
@@ -10,7 +16,7 @@ let isDraggingPlayer = false;
 var boundaries = [];
 var nextBoundary;
 
-// constants
+// constants TODO make them changeable by the user
 const boundaryWidth = 10;
 const rayWidth = 1;
 const rayStepSize = 10;
