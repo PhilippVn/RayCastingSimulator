@@ -58,3 +58,19 @@ class Boundary{
         ctx.stroke();
     }
 }
+
+function getCanvasBoundaries(canvasWidth, canvasHeight){
+    let bottomBoundary = new Boundary(0,canvasHeight,canvasWidth,canvasHeight);
+    let topBoundary = new Boundary(0,0,canvasWidth,0);
+    let leftBoundary = new Boundary(0,0,0,canvasHeight);
+    let rightBoundary = new Boundary(canvasWidth,0,canvasWidth,canvasHeight);
+    return [bottomBoundary,topBoundary,leftBoundary,rightBoundary];
+}
+
+/**
+ * 
+ * @returns User defined Boundaries and Canvas Boundaries
+ */
+function getAllBoundaries(canvas){
+    return getCanvasBoundaries(canvas.width,canvas.height).concat(boundaries);
+}

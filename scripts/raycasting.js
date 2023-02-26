@@ -12,17 +12,21 @@ var nextBoundary;
 
 // constants
 const boundaryWidth = 10;
-const rayWidth = 0.3;
-const rayStepSize = 10;
+const rayWidth = 1;
+const rayStepSize = 5;
 const FPS = 120;
 const playerRadius = 13;
 const fpsInterval = 1000 / FPS; // interval between frames in miliseconds
+
+// dont change
+var maximumRayLength;
 
 function main(){
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     const resetButton = document.getElementById("clear-button");
     const fpsCounter = document.getElementById("fps");
+    maximumRayLength = Math.sqrt(canvas.width ** 2 + canvas.height ** 2);
 
     player = new Player(canvas.width/2,canvas.height/2,playerRadius);
 
@@ -67,7 +71,7 @@ function gameLoop(timestamp,lastTimestamp,canvas,ctx,fpsCounter){
         player.drawPlayer(ctx);
 
         ctx.lineWidth = rayWidth;
-        player.shootRays(ctx,rayStepSize);
+        player.shootRays(ctx,rayStepSize,canvas);
     }
     // request the next animation frame
     requestAnimationFrame(function (timestamp) {

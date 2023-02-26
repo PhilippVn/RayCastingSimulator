@@ -63,18 +63,25 @@ class Player{
 
 
     /**
-     * shoots rays from the player in 360 degrees
+     * shoots rays from the player`s edge in 360 degrees
      * @param {CanvasRenderingContext2D} ctx 
      * @param {Number} degreeStep
      * @param {Number} rayWidth
      */
-    shootRays(ctx, degreeStep){
+    shootRays(ctx, degreeStep, canvas) {
         this.rays = [];
-        for(let i = 0; i < 360; i+=degreeStep){
-            this.rays.push(new Ray(this.playerX,this.playerY,i,100));
+      
+        for (let i = 0; i < 360; i += degreeStep) {
+          const radians = i * Math.PI / 180;
+          const startX = this.playerX + (this.radius * Math.cos(radians));
+          const startY = this.playerY + (this.radius * Math.sin(radians));
+          const ray = new Ray(startX, startY, i, maximumRayLength);
+          ray.setMaximumRayLength(canvas);
+          this.rays.push(ray);
         }
-        for(let ray of this.rays){
-            ray.drawRay(ctx);
+      
+        for (let ray of this.rays) {
+          ray.drawRay(ctx);
         }
-    }
+      }
 }
