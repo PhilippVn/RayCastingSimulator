@@ -13,7 +13,7 @@ var nextBoundary;
 // constants
 const boundaryWidth = 10;
 const rayWidth = 1;
-const rayStepSize = 5;
+const rayStepSize = 10;
 const FPS = 120;
 const playerRadius = 13;
 const fpsInterval = 1000 / FPS; // interval between frames in miliseconds

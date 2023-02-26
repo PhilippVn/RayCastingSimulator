@@ -65,9 +65,10 @@ class Ray{
         let minimumDistance = maximumRayLength;
         for(let i = 0; i < intersectionPoints.length; ++i){
             let distance = getDistance(this.startX,this.startY,intersectionPoints[i][0],intersectionPoints[i][1]);
-            minimumDistance = (distance < minimumDistance) ? distance : minimumDistance;
+            if(distance < minimumDistance){
+                minimumDistance = distance;
+            }
         }
-
         this.length = minimumDistance;
     }
 }
@@ -79,41 +80,45 @@ function getDistance(x1,y1,x2,y2){
 }
 
 /**
- * calculates and returns all intersection points of the ray with all boundaries using line intersection formula and cramers rule
+ * calculates and returns all intersection points of the ray with all boundaries
  * @param {Ray} ray 
  * @param {HTMLCanvasElement} canvas
  * @returns array of intersection points (x,y)
  */
-function getIntersectionPoints(ray,canvas){
-    let boundaries = getAllBoundaries(canvas);
-    let intersectionPoints = [];
-
+function getIntersectionPoints(ray, canvas) {
+    const boundaries = getAllBoundaries(canvas);
+    var intersectionPoints = [];
+  
     for (const boundary of boundaries) {
-        // Calculate boundary vector
-        const boundaryX = boundary.getEndX - boundary.getStartX;
-        const boundaryY = boundary.getEndY - boundary.getStartY;
-    
-        // Calculate ray vector
-        const rayEndX = ray.getStartX + ray.getLength * Math.cos(degrees_to_radians(ray.getDirection));
-        const rayEndY = ray.getStartY + ray.getLength * Math.sin(degrees_to_radians(ray.getDirection));
-        const rayX = rayEndX - ray.getStartX;
-        const rayY = rayEndY - ray.getStartY;
-    
-        // Apply Cramer's rule to find intersection point
-        const determinant = rayX * boundaryY - rayY * boundaryX;
-        if (determinant != 0) {
-          const t = ((boundary.getStartX - ray.getStartX) * boundaryY - (boundary.getStartY - ray.getStartY) * boundaryX) / determinant;
-          const u = -(rayX * (ray.getStartY - boundary.getStartY) - rayY * (ray.getStartX - boundary.getStartX)) / determinant;
-          if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
-            const intersectionX = ray.getStartX + t * rayX;
-            const intersectionY = ray.getStartY + t * rayY;
-            intersectionPoints.push([intersectionX, intersectionY]);
-          }
+        const rayLength = ray.getLength;
+        const x1 = ray.getStartX;
+        const y1 = ray.getStartY;
+        const rayDirection = ray.getDirection;
+        const x2 = x1 + rayLength * Math.cos(degrees_to_radians(rayDirection));
+        const y2 = y1 + rayLength * Math.sin(degrees_to_radians(rayDirection));
+
+        const x3 = boundary.getStartX;
+        const y3 = boundary.getStartY;
+        const x4 = boundary.getEndX;
+        const y4 = boundary.getEndY;
+
+        // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
+        // line intersection for two line segments
+        const t = ((x1-x3)*(y3-y4) - (y1-y3)*(x3-x4))/((x1-x2)*(y3-y4) - (y1-y2)*(x3-x4));
+        const u = ((x1-x3)*(y1-y2) - (y1-y3)*(x1-x2))/((x1-x2)*(y3-y4) - (y1-y2)*(x3-x4));
+
+        // test for intersection
+        if(((0 <= t) && (t <= 1)) && ((0 <= u) && (u <= 1))){
+            const x = (x1 + t*(x2-x1));
+            const y = (y1 + t*(y2-y1));
+
+            intersectionPoints.push([x,y]);
         }
-      }
-    
-      return intersectionPoints;
-}
+    }
+  
+    return intersectionPoints;
+  }
+  
 
 function degrees_to_radians(degrees)
 {
