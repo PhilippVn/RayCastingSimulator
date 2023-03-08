@@ -37,9 +37,14 @@ function main(){
     player = new Player(canvas.width/2,canvas.height/2,playerRadius);
 
     // register mouse event listeners for drawing boundaries and moving Player
-    canvas.addEventListener("mousedown", handleMouseDown);
-    canvas.addEventListener("mouseup", handleMouseUp);
-    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mousedown", handlePointerDown);
+    canvas.addEventListener("mouseup", handlePointerUp);
+    canvas.addEventListener("mousemove", handlePointerMove);
+
+    
+    canvas.addEventListener("touchstart",handlePointerDown);
+    canvas.addEventListener("touchend",handlePointerUp);
+    canvas.addEventListener("touchmove",handlePointerMove);
 
     resetButton.addEventListener("click",function (){
         // clear canvas boundaries and reset player
@@ -85,30 +90,86 @@ function gameLoop(timestamp,lastTimestamp,canvas,ctx,fpsCounter){
     });
 }
 
+/** 
+ * either start dragging the player or drawing a boundary depending on wether the player was clicked or the canvas
+*/
+function handlePointerDown(event) {
+    let clientX;
+    let clientY;
 
-function handleMouseDown(event) {
+    event.preventDefault(); // prevent event bubbling
+    if(event.type == "touchstart"){
+        var rect = event.target.getBoundingClientRect();
+        clientX = event.changedTouches[0].pageX - rect.left;
+        clientY = event.changedTouches[0].pageY - rect.top;
+    }else{
+        clientX = event.offsetX;
+        clientY = event.offsetY;
+    }
+    //console.log(event.type +": " + logPoint(clientX,clientY));
+
     // check if the Player should be dragged or if a Boundary should be drawn
-    if (player.isSelected(event.offsetX, event.offsetY)) {
+    if (player.isSelected(clientX, clientY)) {
         isDraggingPlayer = true;
     }else{
-        nextBoundary = new Boundary(event.offsetX, event.offsetY,-1,-1);
+        nextBoundary = new Boundary(clientX, clientY,-1,-1);
     }
 }
 
-function handleMouseUp(event) {
+/**
+ * stop dragging the player if is was previously selected or finish drawing a boundary
+ */
+function handlePointerUp(event) {
     if(isDraggingPlayer){
         isDraggingPlayer = false;
     }else{
-        nextBoundary.setEndX = event.offsetX;
-        nextBoundary.setEndY = event.offsetY;
+        event.preventDefault();
+        let clientX;
+        let clientY;
+
+        if(event.type == "touchend"){
+            var rect = event.target.getBoundingClientRect();
+            clientX = event.changedTouches[0].pageX - rect.left;
+            clientY = event.changedTouches[0].pageY - rect.top;
+        }else{
+            clientX = event.offsetX;
+            clientY = event.offsetY;
+        }
+
+        //console.log(event.type +": " + logPoint(clientX,clientY));
+
+        nextBoundary.setEndX = clientX;
+        nextBoundary.setEndY = clientY;
         if(nextBoundary.isReady()){
             boundaries.push(nextBoundary);
         }
     }
 }
 
-function handleMouseMove(event) {
-    if (isDraggingPlayer) {
-        player.setCoordinates(event.offsetX,event.offsetY);
+/**
+ * moves the player
+ */
+function handlePointerMove(event) {
+    event.preventDefault();
+    let clientX;
+    let clientY;
+
+    if(event.type == "touchmove"){
+        var rect = event.target.getBoundingClientRect();
+        clientX = event.changedTouches[0].pageX - rect.left;
+        clientY = event.changedTouches[0].pageY - rect.top;
+    }else{
+        clientX = event.offsetX;
+        clientY = event.offsetY;
     }
+
+    //console.log(event.type +": " + logPoint(clientX,clientY));
+
+    if (isDraggingPlayer) {
+        player.setCoordinates(clientX,clientY);
+    }
+}
+
+function logPoint(x,y){
+    return "("+x+","+y+")";
 }
