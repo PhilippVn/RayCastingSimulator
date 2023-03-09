@@ -134,6 +134,9 @@ function handlePointerUp(event) {
         let clientY;
 
         if(event.type == "touchend"){
+            if(!event.changedTouches.length < 2){
+                return;
+            }
             isTouching = false;
             var rect = event.target.getBoundingClientRect();
             clientX = event.changedTouches[0].pageX - rect.left;
