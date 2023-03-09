@@ -112,7 +112,7 @@ function handlePointerDown(event) {
     if (player.isSelected(clientX, clientY)) {
         isDraggingPlayer = true;
     }else{
-        nextBoundary = new Boundary(clientX, clientY,-1,-1);
+        nextBoundary = new Boundary(clientX, clientY,-1,-1,true);
     }
 }
 
@@ -142,6 +142,7 @@ function handlePointerUp(event) {
         nextBoundary.setEndY = clientY;
         if(nextBoundary.isReady()){
             boundaries.push(nextBoundary);
+            boundaries = boundaries.concat(nextBoundary.getRectangleBoundaries());
         }
     }
 }

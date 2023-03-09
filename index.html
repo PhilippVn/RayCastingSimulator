@@ -20,18 +20,32 @@
 
 
 <body>
-    <h1>Raycasting Simulator</h1>
-    <div id = "raycasting">
-        <canvas id="canvas" width="500" height="500" style="border:3px solid #000000;"> Something went wrong :( </canvas>
-        <button id="clear-button">Clear</button>
-        <p id="fps">FPS:</p>
-    </div>
+    <main>
+        <h1>Raycasting Simulator</h1>
+        <div id = "raycasting">
+            <canvas id="canvas" width="350" height="350" style="border:3px solid #000000;"> Something went wrong :( </canvas>
+            <button id="clear-button">Clear</button>
+            <p id="fps">FPS:</p>
+        </div>
+    </main>
     <div id="tutorial">
         <h2>Tutorial:</h2>
         <ul>
             <li>Draw Boundaries with your Mouse</li>
             <li>Move Raycaster by dragging it with your Mouse</li>
         </ul>
+    </div>
+    <div id="configuration">
+        <h2>Configuration</h2>
+        <input type="range" id="ray-spacing" name="ray spacing" min="1" max="360" step="1" value="10" oninput="this.nextElementSibling.value = this.value">
+        <label for="ray-spacing">Ray Spacing</label>
+
+        <input type="range" id="boundary-width" name="boundary width" min="1" max="100" step="1" value="10" oninput="this.nextElementSibling.value = this.value">
+        <label for="boundary-width">Boundary Width</label>
+
+        <input type="range" id="player-size" name="player-size" min="1" max="100" step="1" value="13" oninput="this.nextElementSibling.value = this.value">
+        <label for="boundary-width">Player Size</label>
+        <button id="reset-button">Reset</button>
     </div>
 </body>
 </html>

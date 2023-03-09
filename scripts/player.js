@@ -60,6 +60,7 @@ class Player{
      * @param {CanvasRenderingContext2D} ctx 
      */
     drawPlayer(ctx){
+        ctx.fillStyle = "rgba(74,148,105,1)"
         ctx.beginPath();
         ctx.ellipse(this.playerX,this.playerY, this.radius, this.radius, 0, 0, 2 * Math.PI);
         ctx.closePath();
