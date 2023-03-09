@@ -104,6 +104,9 @@ function handlePointerDown(event) { // TODO ignore > 1 touches -> invisible boun
     if(!isTouching){
         if(event.type == "touchstart"){
             isTouching = true;
+            if(event.changedTouches.length > 0){
+                return;
+            }
             var rect = event.target.getBoundingClientRect();
             clientX = event.changedTouches[0].pageX - rect.left;
             clientY = event.changedTouches[0].pageY - rect.top;
