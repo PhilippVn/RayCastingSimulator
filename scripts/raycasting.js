@@ -100,6 +100,7 @@ function handlePointerDown(event) { // TODO ignore > 1 touches -> invisible boun
 
     if(event.type == "touchstart"){
         if(event.touches.length > 1){
+            console.log("multitouch: touches.length=" + event.touches.length);
             return;
         }
         var rect = event.target.getBoundingClientRect();
