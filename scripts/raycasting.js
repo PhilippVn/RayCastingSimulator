@@ -12,6 +12,9 @@ window.onload = function () {
 var player;
 let isDraggingPlayer = false;
 
+// global var to check if there is a touchpoint -> only allow one at a time
+let isTouching = false;
+
 // array of boundaries to redraw them each frame
 var boundaries = [];
 var nextBoundary;
@@ -93,26 +96,29 @@ function gameLoop(timestamp,lastTimestamp,canvas,ctx,fpsCounter){
 /** 
  * either start dragging the player or drawing a boundary depending on wether the player was clicked or the canvas
 */
-function handlePointerDown(event) {
+function handlePointerDown(event) { // TODO ignore > 1 touches -> invisible boundaries are drawn, in all handle functions
+    event.preventDefault(); // prevent event bubbling
     let clientX;
     let clientY;
 
-    event.preventDefault(); // prevent event bubbling
-    if(event.type == "touchstart"){
-        var rect = event.target.getBoundingClientRect();
-        clientX = event.changedTouches[0].pageX - rect.left;
-        clientY = event.changedTouches[0].pageY - rect.top;
-    }else{
-        clientX = event.offsetX;
-        clientY = event.offsetY;
-    }
-    //console.log(event.type +": " + logPoint(clientX,clientY));
-
-    // check if the Player should be dragged or if a Boundary should be drawn
-    if (player.isSelected(clientX, clientY)) {
-        isDraggingPlayer = true;
-    }else{
-        nextBoundary = new Boundary(clientX, clientY,-1,-1,true);
+    if(!isTouching){
+        if(event.type == "touchstart"){
+            isTouching = true;
+            var rect = event.target.getBoundingClientRect();
+            clientX = event.changedTouches[0].pageX - rect.left;
+            clientY = event.changedTouches[0].pageY - rect.top;
+        }else{
+            clientX = event.offsetX;
+            clientY = event.offsetY;
+        }
+        //console.log(event.type +": " + logPoint(clientX,clientY));
+    
+        // check if the Player should be dragged or if a Boundary should be drawn
+        if (player.isSelected(clientX, clientY)) {
+            isDraggingPlayer = true;
+        }else{
+            nextBoundary = new Boundary(clientX, clientY,-1,-1,true);
+        }
     }
 }
 
@@ -120,14 +126,15 @@ function handlePointerDown(event) {
  * stop dragging the player if is was previously selected or finish drawing a boundary
  */
 function handlePointerUp(event) {
+    event.preventDefault();
     if(isDraggingPlayer){
         isDraggingPlayer = false;
     }else{
-        event.preventDefault();
         let clientX;
         let clientY;
 
         if(event.type == "touchend"){
+            isTouching = false;
             var rect = event.target.getBoundingClientRect();
             clientX = event.changedTouches[0].pageX - rect.left;
             clientY = event.changedTouches[0].pageY - rect.top;
