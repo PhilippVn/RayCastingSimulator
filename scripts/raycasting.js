@@ -100,7 +100,6 @@ function handlePointerDown(event) { // TODO ignore > 1 touches -> invisible boun
 
     if(event.type == "touchstart"){
         if(event.touches.length > 1){
-            console.log("multitouch: touches.length=" + event.touches.length);
             return;
         }
         var rect = event.target.getBoundingClientRect();
@@ -126,29 +125,36 @@ function handlePointerDown(event) { // TODO ignore > 1 touches -> invisible boun
  */
 function handlePointerUp(event) {
     event.preventDefault();
-    if(isDraggingPlayer){
-        isDraggingPlayer = false;
+    let clientX;
+    let clientY;
+
+    if(event.type == "touchend"){
+        if(event.touches.length > 1){
+            return;
+        }
+        if(isDraggingPlayer){
+            isDraggingPlayer = false;
+            return;
+        }
+        var rect = event.target.getBoundingClientRect();
+        clientX = event.changedTouches[0].pageX - rect.left;
+        clientY = event.changedTouches[0].pageY - rect.top;
     }else{
-        let clientX;
-        let clientY;
-
-        if(event.type == "touchend"){
-            var rect = event.target.getBoundingClientRect();
-            clientX = event.changedTouches[0].pageX - rect.left;
-            clientY = event.changedTouches[0].pageY - rect.top;
-        }else{
-            clientX = event.offsetX;
-            clientY = event.offsetY;
+        if(isDraggingPlayer){
+            isDraggingPlayer = false;
+            return;
         }
+        clientX = event.offsetX;
+        clientY = event.offsetY;
+    }
 
-        //console.log(event.type +": " + logPoint(clientX,clientY));
+    //console.log(event.type +": " + logPoint(clientX,clientY));
 
-        nextBoundary.setEndX = clientX;
-        nextBoundary.setEndY = clientY;
-        if(nextBoundary.isReady()){
-            boundaries.push(nextBoundary);
-            boundaries = boundaries.concat(nextBoundary.getRectangleBoundaries());
-        }
+    nextBoundary.setEndX = clientX;
+    nextBoundary.setEndY = clientY;
+    if(nextBoundary.isReady()){
+        boundaries.push(nextBoundary);
+        boundaries = boundaries.concat(nextBoundary.getRectangleBoundaries());
     }
 }
 
@@ -161,6 +167,9 @@ function handlePointerMove(event) {
     let clientY;
 
     if(event.type == "touchmove"){
+        if(event.touches.length > 1){
+            return;
+        }
         var rect = event.target.getBoundingClientRect();
         clientX = event.changedTouches[0].pageX - rect.left;
         clientY = event.changedTouches[0].pageY - rect.top;
