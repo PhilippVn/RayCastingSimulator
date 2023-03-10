@@ -155,6 +155,7 @@ function handlePointerUp(event) {
     if(nextBoundary.isReady()){
         boundaries.push(nextBoundary);
         boundaries = boundaries.concat(nextBoundary.getRectangleBoundaries());
+        nextBoundary = new Boundary(-1,-1,-1,-1,true);
     }
 }
 
