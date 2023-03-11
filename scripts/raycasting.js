@@ -5,6 +5,7 @@
  */
 
 window.onload = function () {
+    config();
     main();
 };
 
@@ -16,12 +17,14 @@ let isDraggingPlayer = false;
 var boundaries = [];
 var nextBoundary;
 
-// constants TODO make them changeable by the user
-const boundaryWidth = 10;
-const rayWidth = 1;
-const rayStepSize = 10;
+// constants changeable by the user
+var boundaryWidth = 10;
+var rayWidth = 1;
+var rayStepSize = 10;
+var playerRadius = 13;
+
+// constants
 const FPS = 120;
-const playerRadius = 13;
 const fpsInterval = 1000 / FPS; // interval between frames in miliseconds
 
 // dont change
@@ -34,7 +37,7 @@ function main(){
     const fpsCounter = document.getElementById("fps");
     maximumRayLength = Math.sqrt(canvas.width ** 2 + canvas.height ** 2);
 
-    player = new Player(canvas.width/2,canvas.height/2,playerRadius);
+    player = new Player(canvas.width/2,canvas.height/2);
 
     // register mouse event listeners for drawing boundaries and moving Player
     canvas.addEventListener("mousedown", handlePointerDown);

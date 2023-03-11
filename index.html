@@ -14,6 +14,7 @@
     <script src = "scripts/boundary.js"></script>
     <script src = "scripts/player.js"></script>
     <script src = "scripts/raycasting.js"></script>
+    <script src = "scripts/configuration.js"></script>
     <!--style sheets-->
 
 </head>
@@ -21,7 +22,7 @@
 
 <body>
     <main>
-        <h1>Raycasting Simulator V2.6</h1>
+        <h1>Raycasting Simulator V3.0</h1>
         <div id = "raycasting">
             <canvas id="canvas" width="350" height="350" style="border:3px solid #000000;"> Something went wrong :( </canvas>
             <button id="clear-button">Clear</button>
@@ -37,15 +38,20 @@
     </div>
     <div id="configuration">
         <h2>Configuration</h2>
-        <input type="range" id="ray-spacing" name="ray spacing" min="1" max="360" step="1" value="10" oninput="this.nextElementSibling.value = this.value">
-        <label for="ray-spacing">Ray Spacing</label>
-
-        <input type="range" id="boundary-width" name="boundary width" min="1" max="100" step="1" value="10" oninput="this.nextElementSibling.value = this.value">
-        <label for="boundary-width">Boundary Width</label>
-
-        <input type="range" id="player-size" name="player-size" min="1" max="100" step="1" value="13" oninput="this.nextElementSibling.value = this.value">
-        <label for="boundary-width">Player Size</label>
+        <label for="ray-spacing">Ray Spacing: <output id="ray-spacing-value">10</output></label>
+        <input type="range" id="ray-spacing" name="ray-spacing" min="1" max="360" step="1" value="10">
+    
+        <label for="boundary-width">Boundary Width: <output id="boundary-width-value">10</output></label>
+        <input type="range" id="boundary-width" name="boundary-width" min="1" max="100" step="1" value="10">
+    
+        <label for="ray-width">Ray Width: <output id="ray-width-value">10</output></label>
+        <input type="range" id="ray-width" name="ray-width" min="1" max="100" step="1" value="10">
+    
+        <label for="player-size">Player Size: <output id="player-size-value">13</output></label>
+        <input type="range" id="player-size" name="player-size" min="1" max="100" step="1" value="13">
+    
         <button id="reset-button">Reset</button>
     </div>
+    
 </body>
 </html>

@@ -6,12 +6,10 @@
 class Player{
     playerX;
     playerY;
-    radius;
     rays;
-    constructor(playerX,playerY, radius){
+    constructor(playerX,playerY){
         this.playerX = playerX;
         this.playerY = playerY;
-        this.radius = radius;
         this.rays = [];
     }
 
@@ -24,7 +22,7 @@ class Player{
     }
 
     get getRadius(){
-        return this.radius;
+        return playerRadius;
     }
 
     set setX(playerX){
@@ -36,7 +34,7 @@ class Player{
     }
 
     set setRadius(radius){
-        this.radius = radius;
+        playerRadius = radius;
     }
 
     setCoordinates(X,Y){
@@ -50,8 +48,8 @@ class Player{
      * @param {Number} y 
      */
     isSelected(x,y){
-        let dx = (x - this.playerX)/this.radius;
-        let dy = (y - this.playerY)/this.radius;
+        let dx = (x - this.playerX)/playerRadius;
+        let dy = (y - this.playerY)/playerRadius;
         return dx * dx + dy * dy < 1;
     }
 
@@ -62,7 +60,7 @@ class Player{
     drawPlayer(ctx){
         ctx.fillStyle = "rgba(74,148,105,1)"
         ctx.beginPath();
-        ctx.ellipse(this.playerX,this.playerY, this.radius, this.radius, 0, 0, 2 * Math.PI);
+        ctx.ellipse(this.playerX,this.playerY, playerRadius, playerRadius, 0, 0, 2 * Math.PI);
         ctx.closePath();
         ctx.fill();
     }
@@ -79,8 +77,8 @@ class Player{
       
         for (let i = 0; i < 360; i += degreeStep) {
           const radians = i * Math.PI / 180;
-          const startX = this.playerX + (this.radius * Math.cos(radians));
-          const startY = this.playerY + (this.radius * Math.sin(radians));
+          const startX = this.playerX + (playerRadius * Math.cos(radians));
+          const startY = this.playerY + (playerRadius * Math.sin(radians));
           const ray = new Ray(startX, startY, i, maximumRayLength);
           ray.setMaximumRayLength(canvas);
           this.rays.push(ray);
