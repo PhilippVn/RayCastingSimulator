@@ -36,6 +36,10 @@ function config() {
       rayWidthSlider.value = 1;
       raySpacingSlider.value = 10;
       playerSizeSlider.value = 13;
+      updateOutputValue('boundary-width', 'boundary-width-value');
+      updateOutputValue('ray-width', 'ray-width-value');
+      updateOutputValue('ray-spacing', 'ray-spacing-value');
+      updateOutputValue('player-size', 'player-size-value');
     }
   };
 
